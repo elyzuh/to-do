@@ -12,7 +12,7 @@ export default function Header() {
 
   return (
     <View
-      className="flex-row items-center bg-[#1a1a1a] border-b border-[#333] absolute top-0 left-0 right-0 z-10 px-5 pb-3.5 min-h-[60px]"
+      className="flex-row items-center absolute top-0 left-0 right-0 z-10 px-5 pb-3.5 min-h-[60px]"
       style={{ paddingTop: insets.top || 20 }}
     >
       {/* Back button (shown conditionally) */}
@@ -28,7 +28,7 @@ export default function Header() {
       )} */}
 
       {/* Main content container */}
-      <View className="flex-1 flex-row justify-center items-center">
+      <View className="flex-1 flex-row justify-center items-center left-5">
         {/* Logo in the center */}
         <Image
           source={require('./logo.png')}
