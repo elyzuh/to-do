@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Text, View, TextInput, TouchableOpacity } from 'react-native';
-import Header from './header';
+import Header from './home-header';
 import { useRouter } from 'expo-router';
 
 export default function AddTodoScreen() {
@@ -27,10 +27,8 @@ export default function AddTodoScreen() {
 
   return (
     <View className="flex-1 bg-[#252422] px-5 pt-5">
-      <Header />
-      <View className="flex-1 px-2 pt-4">
-        <Text className="text-2xl font-bold text-white mb-6">Add Task</Text>
-        
+      <Header/>
+      <View className="flex-1 px-2 pt-10">
         <Text className="text-base font-medium text-gray-300 mb-2">Title</Text>
         <TextInput
           className="rounded-lg p-3 text-base mb-5 text-white bg-[#403D39]"

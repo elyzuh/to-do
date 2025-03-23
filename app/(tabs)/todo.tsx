@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Text, View, FlatList, TouchableOpacity } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Header from './header';
+import Header from './home-header';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Swipeable } from 'react-native-gesture-handler';
 
@@ -86,7 +86,7 @@ export default function TodoScreen() {
   const headerHeight = insets.top + 15 + 40;
 
   return (
-    <View className="flex-1 bg-[#252422] pt-5">
+    <View className="flex-1 bg-[#252422] pt-5 ">
       <Header />
       <FlatList
         data={tasks}
