@@ -21,6 +21,7 @@ export default function TodoScreen() {
   const router = useRouter();
   const params = useLocalSearchParams();
   const [tasks, setTasks] = React.useState(initialTasks);
+  const [swipedTaskId, setSwipedTaskId] = React.useState<string | null>(null); // Track the swiped task
 
   React.useEffect(() => {
     console.log('Params received in TodoScreen:', params);
@@ -46,47 +47,58 @@ export default function TodoScreen() {
 
   const deleteTask = (id: string) => {
     setTasks(tasks.filter(task => task.id !== id));
+    setSwipedTaskId(null); 
   };
 
   const renderRightActions = (id: string) => (
     <TouchableOpacity
-      className="justify-center items-center w-[60px] h-full rounded-lg rounded-bl-none rounded-br-none"
+      className="justify-center items-center w-[60px] rounded-lg rounded-none bg-red-500/20" 
       onPress={() => deleteTask(id)}
     >
-      <Ionicons name="trash" size={24} color="#fff" />
+      <Ionicons name="trash" size={24} color="#CF1B27" />
     </TouchableOpacity>
   );
 
-  const renderTask = ({ item }: { item: typeof initialTasks[0] }) => (
-    <Swipeable
-      renderRightActions={() => renderRightActions(item.id)}
-      overshootRight={false}
-    >
-      <View className="flex-row items-center rounded-lg p-4 mb-2.5 border-b border-[#403D39] rounded-bl-none rounded-br-none">
-        <TouchableOpacity onPress={() => toggleTaskCompletion(item.id)}>
-          <Ionicons
-            name={item.completed ? 'checkmark-circle' : 'ellipse-outline'}
-            size={24}
-            color={item.completed ? '#4CAF50' : '#fff'}
-            className="mr-3.5"
-          />
-        </TouchableOpacity>
-        <View className="flex-1">
-          <Text className={`text-base font-bold ${item.completed ? 'text-gray-400 line-through' : 'text-white'}`}>
-            {item.title}
-          </Text>
-          <Text className={`text-sm ${item.completed ? 'text-gray-400 line-through' : 'text-[#ccc]'}`}>
-            {item.description}
-          </Text>
+  const renderTask = ({ item }: { item: typeof initialTasks[0] }) => {
+    const isSwiped = swipedTaskId === item.id; 
+
+    return (
+      <Swipeable
+        renderRightActions={() => renderRightActions(item.id)}
+        overshootRight={false}
+        onSwipeableWillOpen={() => setSwipedTaskId(item.id)} 
+        onSwipeableClose={() => setSwipedTaskId(null)}
+      >
+        <View
+          className={`flex-row items-center rounded-lg p-4 mb-2.5 border-b border-[#403D39] rounded-none ${
+            isSwiped ? 'bg-[#403D39]' : 'bg-[#252422]'
+          }`} // Highlight when swiped
+        >
+          <TouchableOpacity onPress={() => toggleTaskCompletion(item.id)}>
+            <Ionicons
+              name={item.completed ? 'checkmark-circle' : 'ellipse-outline'}
+              size={24}
+              color={item.completed ? '#4CAF50' : '#fff'}
+              className="mr-3.5"
+            />
+          </TouchableOpacity>
+          <View className="flex-1">
+            <Text className={`text-base font-bold ${item.completed ? 'text-gray-400 line-through' : 'text-white'}`}>
+              {item.title}
+            </Text>
+            <Text className={`text-sm ${item.completed ? 'text-gray-400 line-through' : 'text-[#ccc]'}`}>
+              {item.description}
+            </Text>
+          </View>
         </View>
-      </View>
-    </Swipeable>
-  );
+      </Swipeable>
+    );
+  };
 
   const headerHeight = insets.top + 15 + 40;
 
   return (
-    <View className="flex-1 bg-[#252422] pt-5 ">
+    <View className="flex-1 bg-[#252422] pt-5">
       <Header />
       <FlatList
         data={tasks}
