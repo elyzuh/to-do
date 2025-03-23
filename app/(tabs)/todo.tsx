@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Header from './home-header';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Swipeable } from 'react-native-gesture-handler';
+import Navbar from './navbar';
 
 // Sample data for the tasks
 const initialTasks = [
@@ -111,12 +112,13 @@ export default function TodoScreen() {
         }}
       />
       <TouchableOpacity
-        className="absolute right-5 bg-[#007AFF] w-[60px] h-[60px] rounded-full justify-center items-center shadow-lg"
+        className="absolute right-5 bg-[#007AFF] w-[60px] h-[60px] mb-20 rounded-full justify-center items-center shadow-lg"
         style={{ bottom: insets.bottom + 20 }}
         onPress={() => router.push('/addtodo')}
       >
         <Ionicons name="add" size={30} color="#fff" />
       </TouchableOpacity>
+      <Navbar/>
     </View>
   );
 }
