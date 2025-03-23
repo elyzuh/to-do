@@ -12,6 +12,8 @@ export default function Layout() {
       <Stack.Screen name="signup" options={{ title: "Sign Up" }} />
       <Stack.Screen name="todo" options={{ title: "To Do Page" }} />
       <Stack.Screen name="addtodo" options={{ title: "Add Task" }} />
+      <Stack.Screen name="completed" options={{ title: "Completed Tasks" }} />
+      <Stack.Screen name="profile" options={{ title: "My Profile" }} />
     </Stack>
     </GestureHandlerRootView>
   );
