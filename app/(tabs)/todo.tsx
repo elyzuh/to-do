@@ -70,7 +70,7 @@ export default function TodoScreen() {
         onSwipeableClose={() => setSwipedTaskId(null)}
       >
         <View
-          className={`flex-row items-center rounded-lg p-4 mb-2.5 border-b border-[#403D39] rounded-none ${
+          className={`flex-row items-center rounded-lg p-4 border-b border-[#403D39] rounded-none ${
             isSwiped ? 'bg-[#403D39]' : 'bg-[#252422]'
           }`} // Highlight when swiped
         >
