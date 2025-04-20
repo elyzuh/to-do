@@ -10,17 +10,33 @@ export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
   const router = useRouter();
 
-  const handleSignIn = () => {
-    const validEmail = "test@gmail.com";
-    const validPassword = "test";
+  const handleSignIn = async() => {
+    try {
+      const response = await fetch(`https://todo-list.dcism.org/signin_action.php?email=${email}&password=${password}`);
+      const result  = await response.json();
 
-    if (email === validEmail && password === validPassword) {
-      setError("");
-      router.push("./todo");
-    } else {
-      setError("Invalid email or password. Please use test@gmail.com and password 'test'.");
+      if(result.status === 200) {
+        console.log("Login Success:", result.data);
+        router.push("./todo")
+      } else {
+        setError(result.message || "Invalid Credentials");
+      }
+    } catch (error) {
+      console.log("Sign in failed", error)
     }
-  };
+  }
+
+  // const handleSignIn = () => {
+  //   const validEmail = "test@gmail.com";
+  //   const validPassword = "test";
+
+  //   if (email === validEmail && password === validPassword) {
+  //     setError("");
+  //     router.push("./todo");
+  //   } else {
+  //     setError("Invalid email or password. Please use test@gmail.com and password 'test'.");
+  //   }
+  // };
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
