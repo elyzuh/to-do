@@ -37,7 +37,7 @@ export default function Profile() {
       >
         {/* Profile picture in the center */}
         <Image
-          source={{ uri: 'https://via.placeholder.com/40' }}
+          source={require("./image.png")} 
           style={styles.profileImage}
         />
         {/* Log Out Button */}
