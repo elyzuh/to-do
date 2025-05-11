@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, Image, KeyboardAvoidingView, Platform } from "react-native";
 import { useRouter } from "expo-router";
 import Ionicons from '@expo/vector-icons/Ionicons';
+import TodoScreen from "./todo";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -9,6 +10,7 @@ export default function SignIn() {
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
   const router = useRouter();
+  const [uID, setuID] = useState()
 
   const handleSignIn = async() => {
     try {
@@ -17,7 +19,7 @@ export default function SignIn() {
 
       if(result.status === 200) {
         console.log("Login Success:", result.data);
-        router.push("./todo")
+        <TodoScreen userID={result.data.id}/>
       } else {
         setError(result.message || "Invalid Credentials");
       }
