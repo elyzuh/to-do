@@ -17,33 +17,16 @@ const CompletedTasks = () => {
     fetchTodos();
   }, []);
 
-  useFocusEffect(
-    useCallback(() => {
-      console.log('Completed ToDo screen in focus, refreshing todos');
-      fetchTodos();
-      return () => {
-        // Cleanup function when screen goes out of focus (optional)
-      };
-    }, [])
-  );
-
   const fetchTodos = async () => {
     try {
       setLoading(true);
-      setError(null);
-      
       const userId = await AsyncStorage.getItem('userId');
-      
       if (!userId) {
-        console.log('No user ID found, redirecting to login');
         router.replace('/LoginPage');
         return;
       }
-
       const response = await todoService.getTodos('inactive', userId);
-      
       if (response.status === 200) {
-        // Convert object of objects to array if needed
         const todosArray = response.data ? Object.values(response.data) : [];
         setTodos(todosArray as TodoItemType[]);
       } else {
@@ -58,42 +41,6 @@ const CompletedTasks = () => {
     }
   };
 
-  const handleStatusChange = async (itemId: number) => {
-    try {
-      console.log('Changing status to active for item:', itemId);
-
-      const response = await todoService.changeTodoStatus(itemId, 'active');
-      
-      if (response.status === 200) {
-        // Remove the reactivated todo from the completed list
-        setTodos(todos.filter(todo => todo.item_id !== itemId));
-      } else {
-        setError(response.message || 'Failed to update todo status');
-      }
-    } catch (err) {
-      console.error('Error updating todo status:', err);
-      setError('An error occurred while updating todo status');
-    }
-  };
-
-  const handleDelete = async (itemId: number) => {
-    try {
-      console.log('Deleting item:', itemId);
-
-      const response = await todoService.deleteTodo(itemId);
-      
-      if (response.status === 200) {
-        // Remove the deleted todo from the list
-        setTodos(todos.filter(todo => todo.item_id !== itemId));
-      } else {
-        setError(response.message || 'Failed to delete todo');
-      }
-    } catch (err) {
-      console.error('Error deleting todo:', err);
-      setError('An error occurred while deleting todo');
-    }
-  };
-
   const onRefresh = () => {
     setRefreshing(true);
     fetchTodos();
@@ -102,13 +49,11 @@ const CompletedTasks = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Completed Tasks</Text>
-      
-      {error && (
-        <Text style={styles.errorText}>{error}</Text>
-      )}
-      
-      {loading && !refreshing ? (
-        <ActivityIndicator size="large" color="#007aff" style={styles.loader} />
+
+      {error && <Text style={styles.errorText}>{error}</Text>}
+
+      {loading ? (
+        <ActivityIndicator size="large" color="#E94560" style={styles.loader} />
       ) : todos.length > 0 ? (
         <FlatList
           data={todos}
@@ -117,8 +62,6 @@ const CompletedTasks = () => {
               id={item.item_id}
               title={item.item_name}
               description={item.item_description}
-              onStatusChange={handleStatusChange}
-              onDelete={handleDelete}
             />
           )}
           keyExtractor={item => item.item_id.toString()}
@@ -139,18 +82,18 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 70,
     paddingHorizontal: 20,
-    backgroundColor: '#f3f6fb',
+    backgroundColor: '#1A1A2E',
   },
   header: {
     fontSize: 28,
-    fontWeight: 'bold',
+    fontWeight: '700',
     marginBottom: 20,
     textAlign: 'center',
-    color: '#333',
+    color: '#E94560',
   },
   emptyText: {
     textAlign: 'center',
-    color: '#aaa',
+    color: '#FFF',
     marginTop: 50,
     fontSize: 16,
   },
@@ -161,7 +104,7 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   errorText: {
-    color: '#ff3b30',
+    color: '#F37272',
     textAlign: 'center',
     marginVertical: 10,
   },

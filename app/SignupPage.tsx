@@ -48,11 +48,7 @@ const SignUp = () => {
       const data = await response.json();
 
       if (data.status !== 200) {
-        if (data.message?.toLowerCase().includes('email')) {
-          setMessage('Email already exists.');
-        } else {
-          setMessage(data.message || 'Failed to sign up.');
-        }
+        setMessage(data.message || 'Failed to sign up.');
         setMessageType('error');
         return;
       }
@@ -64,9 +60,9 @@ const SignUp = () => {
         router.replace('/LoginPage');
       }, 1500);
 
-    } catch (error: any) {
+    } catch (error) {
       console.error('Signup Error:', error);
-      setMessage(error.message || 'Failed to sign up.');
+      setMessage('Failed to sign up.');
       setMessageType('error');
     }
   };
@@ -84,6 +80,7 @@ const SignUp = () => {
         style={styles.input}
         value={firstName}
         onChangeText={setFirstName}
+        placeholderTextColor="#777"
       />
 
       <TextInput
@@ -91,6 +88,7 @@ const SignUp = () => {
         style={styles.input}
         value={lastName}
         onChangeText={setLastName}
+        placeholderTextColor="#777"
       />
 
       <TextInput
@@ -100,6 +98,7 @@ const SignUp = () => {
         onChangeText={setEmail}
         keyboardType="email-address"
         autoCapitalize="none"
+        placeholderTextColor="#777"
       />
 
       <TextInput
@@ -108,6 +107,7 @@ const SignUp = () => {
         value={password}
         onChangeText={setPassword}
         secureTextEntry
+        placeholderTextColor="#777"
       />
 
       <TextInput
@@ -116,6 +116,7 @@ const SignUp = () => {
         value={confirmPassword}
         onChangeText={setConfirmPassword}
         secureTextEntry
+        placeholderTextColor="#777"
       />
 
       {message !== '' && (
@@ -142,49 +143,52 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 24,
     justifyContent: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#1A1A2E',
   },
   title: {
     fontSize: 28,
-    fontWeight: '600',
+    fontWeight: '700',
     marginBottom: 24,
     alignSelf: 'center',
+    color: '#E94560',
   },
   input: {
-    borderWidth: 1,
-    borderColor: '#aaa',
+    backgroundColor: '#16213E',
     padding: 12,
+    marginBottom: 16,
     borderRadius: 8,
-    marginBottom: 12,
+    borderColor: '#0F3460',
+    borderWidth: 1,
+    color: '#FFF',
   },
   button: {
-    backgroundColor: '#1e90ff',
-    padding: 14,
+    backgroundColor: '#E94560',
+    paddingVertical: 14,
     borderRadius: 8,
     alignItems: 'center',
     marginTop: 8,
   },
   buttonText: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: '#FFF',
+    fontWeight: '700',
   },
   loginLink: {
-    color: '#1e90ff',
+    color: '#53D769',
     textAlign: 'center',
     marginTop: 16,
     textDecorationLine: 'underline',
   },
   errorText: {
-    color: 'red',
+    color: '#F37272',
     fontSize: 12,
     marginBottom: 8,
-    marginLeft: 4,
+    textAlign: 'center',
   },
   successText: {
-    color: 'green',
+    color: '#53D769',
     fontSize: 12,
     marginBottom: 8,
-    marginLeft: 4,
+    textAlign: 'center',
   },
 });
 

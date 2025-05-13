@@ -9,7 +9,6 @@ const Profile = () => {
   const router = useRouter();
 
   useEffect(() => {
-    // Load user email from AsyncStorage
     const loadUserData = async () => {
       try {
         const userEmail = await AsyncStorage.getItem('email');
@@ -27,7 +26,6 @@ const Profile = () => {
   const handleLogout = async () => {
     setIsLoading(true);
     try {
-      // Clear all user data from AsyncStorage
       await AsyncStorage.multiRemove([
         'userId',
         'firstName',
@@ -35,8 +33,6 @@ const Profile = () => {
         'email',
         'user'
       ]);
-      
-      // Navigate to login page
       router.replace('/LoginPage');
     } catch (error) {
       console.error('Error during logout:', error);
@@ -72,7 +68,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 24,
-    backgroundColor: '#fff',
+    backgroundColor: '#1A1A2E',
   },
   profileImage: {
     width: 120,
@@ -83,19 +79,21 @@ const styles = StyleSheet.create({
   info: {
     fontSize: 18,
     marginBottom: 32,
+    color: '#FFF',
   },
   logoutButton: {
-    backgroundColor: '#ff5c5c',
-    paddingVertical: 12,
-    paddingHorizontal: 24,
+    backgroundColor: '#E94560',
+    paddingVertical: 14,
+    paddingHorizontal: 32,
     borderRadius: 8,
     width: '60%',
     alignItems: 'center',
+    marginTop: 16,
   },
   logoutButtonText: {
-    color: '#fff',
+    color: '#FFF',
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: '700',
   },
 });
 

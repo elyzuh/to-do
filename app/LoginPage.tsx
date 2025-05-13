@@ -35,18 +35,14 @@ const Login = () => {
         setMessage('Success.');
         setMessageType('success');
 
-        // Store user data
         try {
           await AsyncStorage.setItem('userId', data.data.id.toString());
           await AsyncStorage.setItem('firstName', data.data.fname);
           await AsyncStorage.setItem('lastName', data.data.lname);
           await AsyncStorage.setItem('email', data.data.email);
-          // Store the entire user object for convenience
           await AsyncStorage.setItem('user', JSON.stringify(data.data));
-          console.log('User data stored successfully');
         } catch (storageError) {
           console.error('Failed to save user data to storage', storageError);
-          // Continue with login even if storage fails
         }
 
         setTimeout(() => {
@@ -63,7 +59,7 @@ const Login = () => {
         setMessage('Invalid username or password.');
       }
       setMessageType('error');
-    } catch (error: any) {
+    } catch (error) {
       console.error('Login Error:', error);
       setMessage('An error occurred. Please try again.');
       setMessageType('error');
@@ -90,6 +86,7 @@ const Login = () => {
         keyboardType="email-address"
         value={email}
         onChangeText={setEmail}
+        placeholderTextColor="#777"
       />
       <TextInput
         style={styles.input}
@@ -97,6 +94,7 @@ const Login = () => {
         secureTextEntry
         value={password}
         onChangeText={setPassword}
+        placeholderTextColor="#777"
       />
 
       {message !== '' && (
@@ -105,7 +103,9 @@ const Login = () => {
         </Text>
       )}
 
-      <Button title="Login" onPress={handleLogin} />
+      <Pressable style={styles.loginButton} onPress={handleLogin}>
+        <Text style={styles.loginButtonText}>Login</Text>
+      </Pressable>
 
       <Text style={styles.footer}>
         Don't have an account?{' '}
@@ -123,28 +123,31 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 16,
-    backgroundColor: '#fff',
+    backgroundColor: '#1A1A2E',
   },
   heading: {
-    fontSize: 32,
-    fontWeight: 'bold',
+    fontSize: 28,
+    fontWeight: '700',
+    color: '#E94560',
     marginBottom: 24,
   },
   input: {
     width: '100%',
     padding: 12,
-    marginBottom: 12,
+    marginBottom: 16,
+    backgroundColor: '#16213E',
     borderWidth: 1,
+    borderColor: '#0F3460',
     borderRadius: 8,
-    borderColor: '#ccc',
+    color: '#FFF',
   },
   footer: {
     marginTop: 16,
-    textAlign: 'center',
+    color: '#FFF',
   },
   link: {
-    color: 'blue',
-    fontWeight: 'bold',
+    color: '#53D769',
+    fontWeight: '600',
   },
   profileImage: {
     width: 120,
@@ -153,17 +156,28 @@ const styles = StyleSheet.create({
     borderRadius: 60,
   },
   errorText: {
-    color: 'red',
-    fontSize: 12,
+    color: '#F37272',
     marginBottom: 12,
-    alignSelf: 'flex-start',
+    textAlign: 'center',
   },
   successText: {
-    color: 'green',
-    fontSize: 12,
+    color: '#53D769',
     marginBottom: 12,
-    alignSelf: 'flex-start',
+    textAlign: 'center',
   },
+  loginButton: {
+    backgroundColor: '#E94560',
+    paddingVertical: 14,
+    paddingHorizontal: 32,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  loginButtonText: {
+    color: '#FFF',
+    fontSize: 16,
+    fontWeight: '700',
+  }
 });
 
 export default Login;
