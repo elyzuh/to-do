@@ -61,8 +61,11 @@ const CompletedTasks = () => {
             <TodoItem
               id={item.item_id}
               title={item.item_name}
-              description={item.item_description}
-            />
+              description={item.item_description} onStatusChange={function (id: number): void {
+                throw new Error('Function not implemented.');
+              } } onDelete={function (id: number): void {
+                throw new Error('Function not implemented.');
+              } }            />
           )}
           keyExtractor={item => item.item_id.toString()}
           contentContainerStyle={styles.listContent}
