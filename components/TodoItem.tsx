@@ -8,9 +8,10 @@ interface TodoItemProps {
   description: string;
   onStatusChange: (id: number) => void;
   onDelete: (id: number) => void;
+  onEdit: (id: number, currentTitle: string, currentDescription: string) => void;
 }
 
-const TodoItem = ({ id, title, description, onStatusChange, onDelete }: TodoItemProps) => {
+const TodoItem = ({ id, title, description, onStatusChange, onDelete, onEdit }: TodoItemProps) => {
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
@@ -18,8 +19,14 @@ const TodoItem = ({ id, title, description, onStatusChange, onDelete }: TodoItem
         <Text style={styles.description}>{description}</Text>
       </View>
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity 
-          style={[styles.button, styles.completeButton]} 
+        <TouchableOpacity
+          style={[styles.button, styles.editButton]}
+          onPress={() => onEdit(id, title, description)}
+        >
+          <Ionicons name="pencil-outline" size={22} color="#fff" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.button, styles.completeButton]}
           onPress={() => onStatusChange(id)}
         >
           <Ionicons name="checkmark-circle-outline" size={24} color="#fff" />
@@ -79,6 +86,9 @@ const styles = StyleSheet.create({
   deleteButton: {
     backgroundColor: '#ff3b30',
   },
+  editButton: {
+    backgroundColor: '#ffc107',
+  }
 });
 
 export default TodoItem; 

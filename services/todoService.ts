@@ -46,10 +46,9 @@ export const todoService = {
   addTodo: async (todo: Pick<TodoItem, 'item_name' | 'item_description'> & { user_id: string | number }): Promise<ApiResponse<TodoItem>> => {
     return makePostRequest('addItem_action.php', todo);
   },
-
-  updateTodo: async (todo: Pick<TodoItem, 'item_id' | 'item_name' | 'item_description'>) => {
-    const response = await axios.put(`${BASE_URL}/editItem_action.php`, todo);
-    return response.data;
+  
+  updateTodo: async (todo: Pick<TodoItem, 'item_id' | 'item_name' | 'item_description'> & { user_id: string | number }): Promise<ApiResponse> => {
+    return makePostRequest('editItem_action.php', todo);
   },
 
   changeTodoStatus: async (itemId: number, status: 'active' | 'inactive'): Promise<ApiResponse> => {
@@ -62,9 +61,19 @@ export const todoService = {
 
   deleteTodo: async (itemId: number): Promise<ApiResponse> => {
     const response = await fetch(`${BASE_URL}/deleteItem_action.php?item_id=${itemId}`, {
-      method: 'POST',
-    });
-    return response.json();
+    method: 'POST',
+  });
+  
+  if (!response.ok) {
+    try {
+      const errorData = await response.json();
+      return errorData;
+    } catch (e) {
+      throw new Error(`HTTP error ${response.status} while deleting item.`);
+    }
+  }
+  
+  return response.json();
   }  
 };
 

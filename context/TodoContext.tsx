@@ -12,7 +12,7 @@ interface TodoContextType {
   signUp: (data: any) => Promise<void>;
   signOut: () => Promise<void>;
   addTodo: (todo: Omit<TodoItem, 'item_id' | 'status' | 'timemodified'>) => Promise<void>;
-  updateTodo: (todo: Pick<TodoItem, 'item_id' | 'item_name' | 'item_description'>) => Promise<void>;
+  updateTodo: (todo: Pick<TodoItem, 'item_id' | 'item_name' | 'item_description'> & { user_id: string | number }) => Promise<void>;
   changeTodoStatus: (itemId: number, status: 'active' | 'inactive') => Promise<void>;
   deleteTodo: (itemId: number) => Promise<void>;
   refreshTodos: () => Promise<void>;
@@ -121,7 +121,7 @@ export const TodoProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const updateTodo = async (todo: Pick<TodoItem, 'item_id' | 'item_name' | 'item_description'>) => {
+  const updateTodo = async (todo: Pick<TodoItem, 'item_id' | 'item_name' | 'item_description'> & { user_id: string | number }) => {
     try {
       setLoading(true);
       await todoService.updateTodo(todo);
